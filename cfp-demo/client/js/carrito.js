@@ -1,5 +1,13 @@
 let btnAgregar = document.querySelector("#btnAgregar");
-btnAgregar.addEventListener("click", agregar);
+btnAgregar.addEventListener("click", function () {
+    let inputProducto = document.querySelector("#producto");
+    let inputPrecio = document.querySelector("#precio");
+    if (inputProducto.value === "" && inputPrecio.value === "") {
+        load();
+    } else {
+        agregar();
+    }
+});
 let btnTotal = document.querySelector("#btnTotal");
 btnTotal.addEventListener("click", sumar);
 
@@ -16,8 +24,7 @@ function agregar() {
     }
     compras.push(renglon);
 
-    mostrarTablaCompras();
-
+    mostrarTablaCompras(compras);
 }
 
 function sumar() {
@@ -36,16 +43,32 @@ function sumar() {
         "<p>Maximo: $" + max + "</p>"
 }
 
-function mostrarTablaCompras() {
+async function mostrarTablaCompras(array) {
     html = "";
-    for (let r of compras) {
+    await array.forEach(item => {
         html += `
             <tr>
-            <td>${r.producto}</td>
-            <td>${r.precio}</td>
+            <td>${item.producto}</td>
+            <td>${item.precio}</td>
             </tr>
             `;
-    }
+    })
     document.querySelector("#tblCompras").innerHTML = html;
 }
-// falta clase 34
+
+async function load() {
+    let container = document.querySelector("#tblCompras");
+    container.innerHTML = "<h1>Loading...</h1>";
+    try {
+        let response = await fetch("http://localhost:3000/mock.json");
+        if (response.ok) {
+            let t = await response.json()
+            container.innerHTML = mostrarTablaCompras(t.compras);
+        }
+        else
+            container.innerHTML = "<h1>Error - Failed URL!</h1>";
+    }
+    catch (response) {
+        container.innerHTML = "<h1>Connection error</h1>";
+    };
+}
