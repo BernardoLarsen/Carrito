@@ -7,7 +7,7 @@ export class ProductoService {
         let productos = [];
         for (let i = 0; i < ProductoService.CANTIDAD_PRODUCTOS;i++) {
             let producto = {
-                'producto_nombre': "producto_" + i,
+                'producto': "producto_" + i,
                 'precio': Math.floor(Math.random() * 100)
             };
             productos.push(producto);
