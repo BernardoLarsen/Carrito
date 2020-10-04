@@ -3,6 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ProductoController } from './producto/producto.controller';
+import { ProductoService } from './producto/producto.service';
+
 
 @Module({
   imports: [
@@ -11,7 +14,7 @@ import { join } from 'path';
     }),
 
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ProductoController],
+  providers: [AppService, ProductoService],
 })
 export class AppModule {}
