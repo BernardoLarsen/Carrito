@@ -13,18 +13,27 @@ btnTotal.addEventListener("click", sumar);
 
 let compras = [];
 
-function agregar() {
+async function agregar() {
     console.log("Funcion Agregar");
     let producto = document.querySelector('#producto').value;
     let precio =
         parseInt(document.querySelector('#precio').value);
     let renglon = {
-        "producto": producto,
+        "nombre_producto": producto,
         "precio": precio
     }
-    compras.push(renglon);
+    let respuesta= await fetch("/productos",
+    {   
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(renglon)
+        })
 
-    mostrarTablaCompras(compras);
+    compras.push(renglon);
+    if(respuesta.ok)
+        mostrarTablaCompras(compras);
 }
 
 function sumar() {
@@ -48,7 +57,7 @@ async function mostrarTablaCompras(array) {
     await array.forEach(item => {
         html += `
             <tr>
-            <td>${item.producto}</td>
+            <td>${item.nombre_producto}</td>
             <td>${item.precio}</td>
             </tr>
             `;
@@ -63,6 +72,7 @@ async function load() {
         let response = await fetch("/productos");
         if (response.ok) {
             let t = await response.json()
+            console.log(t);
             container.innerHTML = mostrarTablaCompras(t);
         }
         else
@@ -72,3 +82,4 @@ async function load() {
         container.innerHTML = "<h1>Connection error</h1>";
     };
 }
+load();

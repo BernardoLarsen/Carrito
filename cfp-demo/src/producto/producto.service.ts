@@ -7,26 +7,11 @@ export class ProductoService {
     private static readonly CANTIDAD_PRODUCTOS = 10;
     private listaProductos: Producto[]=[];
 
-    // public getRandom(): any {
-    //     let productos = [];
-    //     for (let i = 0; i < ProductoService.CANTIDAD_PRODUCTOS; i++) {
-    //         let producto = {
-    //             'producto': "producto_" + i,
-    //             'precio': Math.floor(Math.random() * 100)
-    //         };
-    //         productos.push(producto);
-    //     }
-    //     return productos;
-    // }
     public getProducto(indexParam:number) :Producto{
         return this.listaProductos[indexParam];
-        // this.listaProductos.forEach((item,index) =>{
-        //     if(index===indexParam){
-        //         return item[index];
-        //     }
-        // })
     }
     public getProductos(): Producto[] {
+        this.loadProductos();
         return this.listaProductos;
     }
     public create(prod: any) {
